@@ -1,0 +1,28 @@
+Package: cicloMobilidadePCR
+Version: 0.0.10
+Author: Cleyton Farias <cleytonfarias@outlook.com>, Rubens Lopes <lps.rubens@gmail.com>
+Maintainer: Cleyton Farias <cleytonfarias@outlook.com>
+Encoding: UTF-8
+License: MIT + file LICENSE
+Imports:
+    shiny,
+    shinydashboard,
+    shinydashboardPlus,
+    shinyWidgets,
+    waiter,
+    fresh,
+    purrr,
+    DT,
+    leaflet,
+    geojsonsf,
+    data.table,
+    dplyr,
+    tidyr,
+    stringr,
+    lubridate,
+    sf,
+    pkgload
+RoxygenNote: 7.2.3
+Depends: 
+    R (>= 2.10)
+LazyData: true

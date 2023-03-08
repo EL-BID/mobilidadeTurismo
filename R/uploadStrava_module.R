@@ -1,14 +1,13 @@
-library(waiter)
-
-options(shiny.maxRequestSize = 50 * 1024^2)
-#load("data/recife_lines.rda")
+#' Upload Strava dataset Input
+#' 
+#' @import shiny
 
 uploadStravaInput <- function(id) {
     ns = NS(id)
     tagList(
         fileInput(
             inputId = ns("uploadStravaTrafego"),
-            label = "Carregar Arquivos Strava Tráfego",
+            label = "Carregar Arquivos Strava Metro",
             buttonLabel = "Procurar",
             accept = c(".csv"), 
             multiple = T,
@@ -21,8 +20,15 @@ uploadStravaInput <- function(id) {
     )
 }
 
-
+#' Upload Strava dataset Server
+#' 
+#' @import shiny
+#' @import waiter
+#' @import data.table
+#' @import sf
+#' 
 uploadStravaServer <- function(id) {
+    options(shiny.maxRequestSize = 100 * 1024^2)
     moduleServer(
         id,
         function(input, output, session) {
@@ -91,6 +97,10 @@ uploadStravaServer <- function(id) {
         }
     )
 }
+
+#' Upload Strava dataset App
+#' 
+#' @import shiny
 
 uploadStravaApp <- function(){
     ui = fluidPage(

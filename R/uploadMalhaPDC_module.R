@@ -1,3 +1,7 @@
+#' Upload Malha PDF Input
+#' 
+#' @import shiny
+#' 
 
 uploadMalhaPDCInput <- function(id) {
     ns = NS(id)
@@ -16,6 +20,9 @@ uploadMalhaPDCInput <- function(id) {
     )
 }
 
+#' Upload Malha PDC Input
+#' 
+#' @import shiny
 
 uploadMalhaPDCServer <- function(id) {
     moduleServer(
@@ -26,19 +33,19 @@ uploadMalhaPDCServer <- function(id) {
                 req(input$uploadMalhaPDC)
                 
                 # show the waiter
-                waiter_show(
+                waiter::waiter_show(
                     color = transparent(.5),
                     html = spin_3() # use a spinner
                 )
                 
                 # reading arquivo kml:
-                data = st_read(
+                data = sf::st_read(
                     input$uploadMalhaPDC$datapath,
                     layer = "Rede Cicloviária Complementar", 
                     type = 2
                 )
-                data = st_zm(data, drop = T, what = "ZM")
-                data = data[!st_is_empty(data),]
+                data = sf::st_zm(data, drop = T, what = "ZM")
+                data = data[!sf::st_is_empty(data),]
                 
                 # saving:
                 saveRDS(data, "data/malhaPDC.rds")
@@ -56,7 +63,7 @@ uploadMalhaPDCServer <- function(id) {
                 saveRDS(strava, "data/strava.rds")
                 
                 #  hide the waiter
-                waiter_hide() 
+                waiter::waiter_hide() 
                 
                 shinyWidgets::sendSweetAlert(
                     session = session,
@@ -68,6 +75,11 @@ uploadMalhaPDCServer <- function(id) {
         }
     )
 }
+
+
+#' Upload Malha PDC App
+#' 
+#' @import shiny
 
 uploadMalhaPDCApp <- function(){
     ui = fluidPage(

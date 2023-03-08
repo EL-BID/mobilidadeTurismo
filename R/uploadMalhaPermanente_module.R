@@ -1,3 +1,6 @@
+#' Upload Malha Permanente Input
+#' 
+#' @import shiny
 
 uploadMalhaPermanenteInput <- function(id) {
     ns = NS(id)
@@ -17,32 +20,28 @@ uploadMalhaPermanenteInput <- function(id) {
     )
 }
 
-
+#' Upload Malha Permanente Server
+#' 
+#' @import shiny
+#' 
 uploadMalhaPermanenteServer <- function(id) {
     moduleServer(
         id,
         function(input, output, session) {
-            
-            # # dados de trafego do strava:
-            # rides2 = reactivePoll(
-            #     intervalMillis = 1000, session = session,
-            #     checkFunc = function() file.mtime("data/rides2.rds"),
-            #     valueFunc = function() readRDS("data/rides2.rds")
-            # )            
 
             observeEvent(input$adicionar, {
                 
                 req(input$uploadMalhaPermanente)
                 
                 # show the waiter
-                waiter_show(
+                waiter::waiter_show(
                     color = transparent(.5),
                     html = spin_3() # use a spinner
                 )
                 
                 # reading:
                 malhaPermanente = geojsonsf::geojson_sf(input$uploadMalhaPermanente$datapath)
-                malhaPermanente = malhaPermanente[!st_is_empty(malhaPermanente),]
+                malhaPermanente = malhaPermanente[!sf::st_is_empty(malhaPermanente),]
                 # saving:
                 saveRDS(malhaPermanente, "data/malhaPermanente.rds")
                 
@@ -59,7 +58,7 @@ uploadMalhaPermanenteServer <- function(id) {
                 saveRDS(rides3, "data/strava.rds")
                 
                 # hide the waiter
-                waiter_hide() 
+                waiter::waiter_hide() 
                 
                 shinyWidgets::sendSweetAlert(
                     session = session,
@@ -73,6 +72,11 @@ uploadMalhaPermanenteServer <- function(id) {
     )
 }
 
+
+#' Upload Malha Permanente App
+#' 
+#' @import shiny
+#' 
 uploadMalhaPermanenteApp <- function(){
     ui = fluidPage(
         shinyWidgets::useSweetAlert(),
